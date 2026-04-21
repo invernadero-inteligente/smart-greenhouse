@@ -1,0 +1,29 @@
+# CODEOWNERS — Sistema de Gestión de Invernadero Inteligente
+# 
+# Este archivo define qué equipo es responsable de revisar y aprobar
+# los cambios en cada carpeta del repositorio.
+# Documentación: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Formato: <patrón de ruta>   <@org/team o @usuario>
+# El equipo listado DEBE aprobar cualquier Pull Request que toque esa carpeta.
+
+# ── Líder del proyecto: aprueba cualquier cambio en el repo ──────
+*                           @invernadero-smart/lider-proyecto
+
+# ── Equipo de Ingeniería de Software ────────────────────────────
+/backend/                   @invernadero-smart/equipo-is
+/frontend/                  @invernadero-smart/equipo-is
+/mobile/                    @invernadero-smart/equipo-is
+/database/                  @invernadero-smart/equipo-is
+/docs/is/                   @invernadero-smart/equipo-is
+
+# ── Equipo de IoT ────────────────────────────────────────────────
+/iot/                       @invernadero-smart/equipo-iot
+/docs/iot/                  @invernadero-smart/equipo-iot
+
+# ── Equipo de IA ─────────────────────────────────────────────────
+/ai/                        @invernadero-smart/equipo-ia
+/docs/ia/                   @invernadero-smart/equipo-ia
+
+# ── Documentación general (todos los equipos pueden editar) ──────
+/docs/general/              @invernadero-smart/lider-proyecto
