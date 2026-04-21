@@ -8,22 +8,22 @@
 # El equipo listado DEBE aprobar cualquier Pull Request que toque esa carpeta.
 
 # ── Líder del proyecto: aprueba cualquier cambio en el repo ──────
-*                           @invernadero-smart/lider-proyecto
+*                           @invernadero-inteligente/lideres-proyecto
 
 # ── Equipo de Ingeniería de Software ────────────────────────────
-/backend/                   @invernadero-smart/equipo-is
-/frontend/                  @invernadero-smart/equipo-is
-/mobile/                    @invernadero-smart/equipo-is
-/database/                  @invernadero-smart/equipo-is
-/docs/is/                   @invernadero-smart/equipo-is
+/backend/                   @invernadero-inteligente/equipo-is
+/frontend/                  @invernadero-inteligente/equipo-is
+/mobile/                    @invernadero-inteligente/equipo-is
+/database/                  @invernadero-inteligente/equipo-is
+/docs/is/                   @invernadero-inteligente/equipo-is
 
 # ── Equipo de IoT ────────────────────────────────────────────────
-/iot/                       @invernadero-smart/equipo-iot
-/docs/iot/                  @invernadero-smart/equipo-iot
+/iot/                       @invernadero-inteligente/equipo-iot
+/docs/iot/                  @invernadero-inteligente/equipo-iot
 
 # ── Equipo de IA ─────────────────────────────────────────────────
-/ai/                        @invernadero-smart/equipo-ia
-/docs/ia/                   @invernadero-smart/equipo-ia
+/ai/                        @invernadero-inteligente/equipo-ia
+/docs/ia/                   @invernadero-inteligente/equipo-ia
 
 # ── Documentación general (todos los equipos pueden editar) ──────
-/docs/general/              @invernadero-smart/lider-proyecto
+/docs/general/              @invernadero-inteligente/lideres-proyecto
