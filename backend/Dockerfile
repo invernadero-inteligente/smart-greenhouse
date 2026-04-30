@@ -1,19 +1,12 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 WORKDIR /app
-# Copy maven wrapper and pom.xml
-COPY invernadero_inteligente_backend/.mvn/ .mvn/
-COPY invernadero_inteligente_backend/mvnw .
+
+# Copy pom.xml and source code
 COPY invernadero_inteligente_backend/pom.xml .
+RUN mvn dependency:go-offline
 
-# Make mvnw executable
-RUN chmod +x ./mvnw
-
-# Download dependencies
-RUN ./mvnw dependency:go-offline
-
-# Copy source code and build
 COPY invernadero_inteligente_backend/src ./src
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Run stage
 FROM eclipse-temurin:21-jre-alpine
