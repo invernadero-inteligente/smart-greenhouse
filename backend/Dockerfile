@@ -1,16 +1,22 @@
-FROM maven:3.9-eclipse-temurin-21-alpine AS builder
+FROM maven:3.9-eclipse-temurin-21 AS app
+
 WORKDIR /app
 
-# Copy pom.xml and source code
 COPY invernadero_inteligente_backend/pom.xml .
 RUN mvn dependency:go-offline
 
 COPY invernadero_inteligente_backend/src ./src
+
+RUN echo "===== VERIFICANDO MIGRACIONES EN RESOURCES =====" && \
+    find src/main/resources -type f || true
+
+RUN test -f src/main/resources/db/migration/V1__init_schema.sql
+
 RUN mvn clean package -DskipTests
 
-# Run stage
-FROM eclipse-temurin:21-jre-alpine
-WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+RUN echo "===== VERIFICANDO CONTENIDO DEL JAR =====" && \
+    jar tf target/*.jar | grep -E "db/migration|flyway" || true
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT ["sh", "-c", "echo '===== CONTENIDO FLYWAY EN JAR ====='; jar tf target/*.jar | grep -E 'db/migration|flyway' || true; echo '===== INICIANDO APP ====='; java -jar target/*.jar --debug"]

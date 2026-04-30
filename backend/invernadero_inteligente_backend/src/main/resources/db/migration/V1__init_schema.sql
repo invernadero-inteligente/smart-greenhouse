@@ -42,6 +42,7 @@ CREATE TABLE crop_conditions (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
 -- 5. sensors
 CREATE TABLE sensors (
     id BIGSERIAL PRIMARY KEY,
