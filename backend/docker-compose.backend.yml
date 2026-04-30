@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: invernadero-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-invernadero_db}
+      POSTGRES_USER: ${POSTGRES_USER:-invernadero_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-invernadero_pass}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-invernadero_user} -d ${POSTGRES_DB:-invernadero_db}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - invernadero-backend-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: invernadero-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@invernadero.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - invernadero-backend-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invernadero-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-invernadero_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-invernadero_user}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-invernadero_pass}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - invernadero-backend-net
+
+networks:
+  invernadero-backend-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:

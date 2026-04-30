@@ -86,6 +86,36 @@ git push origin feature/is/nombre-funcionalidad
 # 4. Abrir Pull Request hacia develop en GitHub
 ```
 
+### 🚀 Levantar solo el Backend (Spring Boot + PostgreSQL)
+Para el desarrollo y pruebas exclusivas del backend, puedes levantar un entorno aislado:
+
+1. Ubícate en la carpeta `backend`:
+```bash
+cd backend
+```
+2. Renombra `.env.example` a `.env` si aún no lo has hecho.
+3. Construye y levanta los servicios:
+```bash
+docker compose -f docker-compose.backend.yml up -d --build
+```
+4. Verifica que todo funcione:
+- Backend: `http://localhost:8080`
+- pgAdmin: `http://localhost:5050`
+  - **Host:** postgres
+  - **Port:** 5432
+  - **Database:** invernadero_db
+  - **User:** invernadero_user
+  - **Password:** invernadero_pass
+
+Para apagar el entorno (estando dentro de la carpeta `backend`):
+```bash
+docker compose -f docker-compose.backend.yml down
+```
+Para apagar el entorno y eliminar la base de datos (volúmenes):
+```bash
+docker compose -f docker-compose.backend.yml down -v
+```
+
 ## 📁 Documentación
 
 La documentación del proyecto se encuentra en `/docs`:
