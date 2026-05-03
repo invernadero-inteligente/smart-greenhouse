@@ -37,9 +37,18 @@ public class ValidationUtil {
         }
     }
 
-    public static void validateGreaterThanZero(double value, String fieldName) {
-        if (value <= 0) {
-            throw new ValidationException(fieldName, "Debe ser mayor a cero");
+    public static void validatePassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new ValidationException("password", "La contraseña debe tener al menos 8 caracteres");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new ValidationException("password", "La contraseña debe contener al menos una letra mayúscula");
+        }
+        if (!password.matches(".*[a-z].*")) {
+            throw new ValidationException("password", "La contraseña debe contener al menos una letra minúscula");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new ValidationException("password", "La contraseña debe contener al menos un número");
         }
     }
 }

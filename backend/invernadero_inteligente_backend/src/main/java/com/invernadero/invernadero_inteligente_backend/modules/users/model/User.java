@@ -15,6 +15,9 @@ public class User extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -24,4 +27,7 @@ public class User extends AuditableEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
+
+    @Column(nullable = false)
+    private boolean active;
 }
