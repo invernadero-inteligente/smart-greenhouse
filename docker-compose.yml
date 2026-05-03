@@ -1,5 +1,3 @@
-version: '3.8'
-
 # ── Sistema de Gestión de Invernadero Inteligente ────────────────
 # Levanta todos los servicios del sistema en entorno local.
 # Uso: docker-compose up

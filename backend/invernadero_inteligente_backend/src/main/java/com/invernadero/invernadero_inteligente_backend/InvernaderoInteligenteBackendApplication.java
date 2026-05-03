@@ -9,5 +9,4 @@ public class InvernaderoInteligenteBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(InvernaderoInteligenteBackendApplication.class, args);
     }
-
 }
