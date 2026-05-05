@@ -1,4 +1,4 @@
-package com.invernadero.invernadero_inteligente_backend.dtos.request;
+package com.invernadero.invernadero_inteligente_backend.shared.pagination;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,9 +24,10 @@ public class PageRequestDTO {
     }
 
     public int getSize() {
-        if (size < 1) return 20;
-        if (size > 100) return 100;
+        if (size < 1)
+            return 20;
+        if (size > 100)
+            return 100;
         return size;
     }
 }
-
