@@ -6,9 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +58,39 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Maneja métodos HTTP no soportados para un endpoint
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException ex, WebRequest request) {
+        log.warn("Método HTTP no permitido: {}", ex.getMethod());
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(ApiResponseDTO.error(405, "Método HTTP no permitido"));
+    }
+
+    /**
+     * Maneja tipos de contenido no soportados
+     */
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleHttpMediaTypeNotSupportedException(
+            HttpMediaTypeNotSupportedException ex, WebRequest request) {
+        log.warn("Tipo de contenido no soportado: {}", ex.getContentType());
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(ApiResponseDTO.error(415, "Tipo de contenido no soportado"));
+    }
+
+    /**
+     * Maneja cuerpos JSON inválidos o ilegibles
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException ex, WebRequest request) {
+        log.warn("Cuerpo de la petición inválido: {}", ex.getMostSpecificCause().getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponseDTO.error(400, "El cuerpo de la solicitud no es válido"));
+    }
+
+    /**
      * Maneja excepciones de validaciÃ³n de argumentos
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -91,6 +129,28 @@ public class GlobalExceptionHandler {
         log.warn("Acceso denegado: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ApiResponseDTO.error(403, "Acceso denegado"));
+    }
+
+    /**
+     * Maneja parámetros requeridos ausentes en la petición
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleMissingServletRequestParameterException(
+            MissingServletRequestParameterException ex, WebRequest request) {
+        log.warn("Parámetro faltante: {}", ex.getParameterName());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponseDTO.error(400, "Falta un parámetro requerido: " + ex.getParameterName()));
+    }
+
+    /**
+     * Maneja rutas inexistentes
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ApiResponseDTO<?>> handleNoHandlerFoundException(
+            NoHandlerFoundException ex, WebRequest request) {
+        log.warn("Ruta no encontrada: {} {}", ex.getHttpMethod(), ex.getRequestURL());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ApiResponseDTO.error(404, "Recurso no encontrado"));
     }
 }
 
