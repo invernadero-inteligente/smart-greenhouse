@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['inmadura', 'lista_para_cosechar', 'verde']
+
+roboflow:
+  workspace: nicolass-workspace-hzoy8
+  project: lechuga-invernadero
+  version: 7
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/nicolass-workspace-hzoy8/lechuga-invernadero/dataset/7
