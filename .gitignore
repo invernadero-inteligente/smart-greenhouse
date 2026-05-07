@@ -31,6 +31,11 @@ out/
 .env.development.local
 .env.test.local
 .env.production.local
+frontend/invernadero_inteligente_fronted/package.json
+frontend/invernadero_inteligente_fronted/package-lock.json
+frontend/invernadero_inteligente_fronted/yarn.lock
+frontend/invernadero_inteligente_fronted/pnpm-lock.yaml
+frontend/invernadero_inteligente_fronted/npm-shrinkwrap.json
 
 # ── PYTHON / IA / IoT ────────────────────────────────────────────
 __pycache__/
